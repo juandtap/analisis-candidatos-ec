@@ -7,10 +7,10 @@ import {Observable} from 'rxjs';
 })
 export class ConsultarService {
 
-  private apiUrl = 'http://localhost:5000/api/buscar_youtube'; // URL de la API
+  private apiUrl = 'http://localhost:5000/api/buscar_todas'; // URL de la API
   constructor(private http: HttpClient) { }
-  consultarSentimiento(candidato: string): Observable<any> {
-    const body = { candidato }; // Enviar el candidato como JSON
+  consultarSentimiento(query: string): Observable<any> {
+    const body = { query }; // Enviar el candidato como JSON
     return this.http.post<any>(this.apiUrl, body);
   }
 }

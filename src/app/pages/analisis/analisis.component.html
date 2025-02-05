@@ -56,15 +56,27 @@
   <div class="mt-6 flex justify-center">
     <button
       (click)="comenzarAnalisis()"
+      [disabled]="cargando"
       class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
       Comenzar Análisis
     </button>
   </div>
 
+  <!-- Pantalla de carga -->
+  <div *ngIf="cargando" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+      <svg class="animate-spin h-10 w-10 text-blue-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0116 0h-2a6 6 0 00-12 0H4z"></path>
+      </svg>
+      <p class="text-lg font-semibold mt-4 text-black">Procesando consulta...</p>
+    </div>
+  </div>
+
   <div class="container mx-auto p-6">
     <h1 class="text-2xl font-bold text-center mb-6">Análisis de Percepción de Candidato</h1>
 
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-2 gap-4" *ngIf="!cargando">
       <!-- Card 1: Nivel de Aceptación -->
       <div class="bg-white shadow-lg rounded-xl p-4 col-span-1 h-96 ">
         <h2 class="text-lg font-semibold text-black mb-2">Nivel de Aceptación</h2>
@@ -73,13 +85,13 @@
 
       <div class="flex flex-col gap-4">
         <!-- Card 2: Info Candidato -->
-        <div class="bg-white shadow-lg rounded-xl p-4 flex items-center gap-4">
-          <img [src]="'/assets/images/candidatos/' + partidos[0].imagen" alt="Candidato" class="w-16 h-16 rounded-full object-cover">
-          <div>
-            <h3 class="text-lg font-semibold text-black">{{ partidos[0].nombre }}</h3>
-            <p class="text-gray-700">{{ partidos[0].partido }}</p>
-          </div>
-        </div>
+<!--        <div *ngIf="candidatoSeleccionado" class="bg-white shadow-lg rounded-xl p-4 flex items-center gap-4">-->
+<!--          <img [src]="candidatoSeleccionado.imagen" alt="Candidato" class="w-16 h-16 rounded-full object-cover">-->
+<!--          <div>-->
+<!--            <h3 class="text-lg font-semibold text-black">{{ candidatoSeleccionado.nombre }}</h3>-->
+<!--            <p class="text-gray-700">{{ candidatoSeleccionado.partido }}</p>-->
+<!--          </div>-->
+<!--        </div>-->
 
         <!-- Card 3: Presencia en Redes -->
         <div class="bg-white shadow-lg rounded-xl p-4 h-68">

@@ -55,10 +55,10 @@ export class AnalisisComponent {
   ];
 
   fuentes: string[] = ['Youtube', 'Reddit', 'Facebook']
-  candidatoSeleccionado: string | null = null;
+  candidatoSeleccionado: any | null = null;
   mostrarResultados: boolean = false;
   datosAceptacion: number[] = [0, 0, 0, 0, 0]; // Se actualizarán con la API
-
+  cargando: boolean = false; // Para mostrar la pantalla de carga
   presenciaRedes: any[] = [];
 
   generarDatosRedes() {
@@ -70,38 +70,83 @@ export class AnalisisComponent {
 
   constructor( private consultarService: ConsultarService) {
     this.generarDatosRedes();
+    console.log('hola');
   }
-  comenzarAnalisis() {
-    if (!this.candidatoSeleccionado) {
-      alert('Por favor, ingrese el nombre del candidato.');
+  async comenzarAnalisis(event: Event) {
+    event.preventDefault();
+    console.log('Candidato seleccionado:', this.seleccionCandidatos[0]);
+    if (this.seleccionCandidatos.length < 1) {
+      console.warn('Debes seleccionar un candidato.');
       return;
     }
 
-    this.consultarService.consultarSentimiento(this.candidatoSeleccionado).subscribe({
-      next: (response) => {
-        this.candidatoSeleccionado = response;
-        console.log('Respuesta del servidor:', response);
-      },
-      error: (error) => {
-        console.error('Error al consultar el servicio:', error);
-      }
-    });
-  }
+    const candidato = this.seleccionCandidatos[0];
+    const query = `${candidato} elecciones presidenciales 2025`
+    console.log(`Consultando API con: ${query}`);
+    console.log('Candidato seleccionado:', candidato);
+    this.cargando = true; // Mostrar pantalla de carga
+    try {
+      const response = await this.consultarService.consultarSentimiento(query).toPromise();
+      console.log('Respuesta API:', response);
+      // Buscar el candidato en la lista de partidos
 
-  ngAfterViewInit() {
-    this.generarGraficaAceptacion();
-    this.generarGraficaRedes();
+      if (response.conteo && response.total_comentarios > 0) {
+        // Almacenar los valores de conteo en el orden esperado por la gráfica
+        this.datosAceptacion = [
+          response.conteo['Muy Positivo'] || 0,
+          response.conteo['Positivo'] || 0,
+          response.conteo['Neutro'] || 0,
+          response.conteo['Negativo'] || 0,
+          response.conteo['Muy Negativo'] || 0
+        ];
+
+
+
+
+        if (this.candidatoSeleccionado) {
+          this.candidatoSeleccionado.imagen = `/assets/images/candidatos/${this.candidatoSeleccionado.imagen}`;
+          console.log("imagen candidato: ", this.candidatoSeleccionado.imagen);
+        }
+
+        setTimeout(() => {
+          this.generarGraficaAceptacion();
+          this.generarGraficaRedes();
+        }, 500);
+
+      } else {
+        console.warn('No se encontraron datos suficientes.');
+      }
+    } catch (error) {
+      console.error('Error en la consulta:', error);
+    } finally {
+      this.cargando = false; // Ocultar pantalla de carga
+    }
+
+
+
+
   }
+  //
+  // ngAfterViewInit() {
+  //   console.log('La vista se ha cargado');
+  //   this.generarGraficaAceptacion();
+  //   this.generarGraficaRedes();
+  // }
 
   generarGraficaAceptacion() {
-    const ctx = document.getElementById('graficoAceptacion') as HTMLCanvasElement;
-    new Chart(ctx, {
+    const canvas = document.getElementById('graficoAceptacion') as HTMLCanvasElement;
+    if (!canvas) {
+      console.error('No se encontró el elemento del canvas. Esperando más tiempo...');
+      setTimeout(() => this.generarGraficaAceptacion(), 500);
+      return;
+    }
+    new Chart(canvas, {
       type: 'bar',
       data: {
         labels: ['Muy Bueno', 'Bueno', 'Neutral', 'Malo', 'Muy Malo'],
         datasets: [{
           label: 'Nivel de Aceptación (%)',
-          data: [Math.random() * 40, Math.random() * 30, Math.random() * 20, Math.random() * 10, Math.random() * 5],
+          data: this.datosAceptacion,
           backgroundColor: ['#4CAF50', '#8BC34A', '#FFC107', '#FF5722', '#D32F2F']
         }]
       },
