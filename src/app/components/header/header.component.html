@@ -1,0 +1,33 @@
+<header class="flex items-center justify-between bg-gray-800 p-4 shadow-md">
+  <!-- Barra de búsqueda -->
+  <div class="relative w-64">
+    <span class="absolute inset-y-0 left-2 flex items-center text-gray-400">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m2.85-5.15A7 7 0 1011 18a7 7 0 008.5-7z" />
+      </svg>
+    </span>
+    <input
+      type="text"
+      placeholder="Buscar"
+      class="pl-8 pr-2 py-2 w-full rounded-lg bg-gray-700 text-white focus:outline-none focus:ring focus:ring-blue-500"
+    />
+  </div>
+
+  <!-- Perfil y menú desplegable -->
+  <div class="relative">
+    <button (click)="toggleMenu()" class="focus:outline-none">
+      <!--      <img src="https://via.placeholder.com/40" alt="Perfil" class="w-10 h-10 rounded-full border-2 border-gray-600">-->
+      <!--      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">-->
+      <!--        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />-->
+      <!--      </svg>-->
+      <img src="assets/images/user.png" alt="user" class="w-10 h-10 rounded-full border-2 border-gray-600">
+
+    </button>
+
+    <!-- Menú desplegable -->
+    <div *ngIf="menuOpen" class="absolute right-0 mt-2 w-40 bg-gray-700 text-white rounded-lg shadow-lg">
+      <a href="#" class="block px-4 py-2 hover:bg-gray-600">Perfil</a>
+      <a href="#" class="block px-4 py-2 hover:bg-gray-600">Salir</a>
+    </div>
+  </div>
+</header>

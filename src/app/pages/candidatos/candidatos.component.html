@@ -1,0 +1,17 @@
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold text-center mb-6">Lista de Candidatos</h1>
+
+  <div *ngFor="let candidato of candidatos" class="bg-white shadow-lg rounded-lg p-4 mb-4 flex items-center space-x-4">
+    <img [src]="'assets/images/candidatos/' + candidato.imagen" [alt]="candidato.nombre"
+         class="w-16 h-16 rounded-full object-cover border border-gray-300">
+
+    <div class="flex-1">
+      <h2 class="text-lg font-semibold text-gray-600">{{ candidato.nombre }}</h2>
+      <p class="text-gray-600">{{ candidato.partido }}</p>
+    </div>
+
+    <div class="text-right">
+      <span class="text-blue-600 font-bold">{{ candidato.aceptacion }}%</span>
+    </div>
+  </div>
+</div>

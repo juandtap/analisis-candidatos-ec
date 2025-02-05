@@ -1,0 +1,32 @@
+<nav class="bg-gray-800 text-white h-screen fixed left-0 top-0 p-4 transition-all duration-300"
+     [ngClass]="{'w-64': isOpen, 'w-16': !isOpen}">
+  <!-- Botón para colapsar/expandir -->
+  <button (click)="toggleNavbar()" class="text-white focus:outline-none z-50">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path *ngIf="isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      <path *ngIf="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+
+  <!-- Contenido del navbar -->
+  <div class="mt-4" [ngClass]="{'hidden': !isOpen}">
+    <div class="text-lg font-semibold mb-6">
+      Politi Mind
+    </div>
+    <ul class="space-y-2">
+      <li>
+        <a href=""  routerLink="/resumen"   routerLinkActive="bg-blue-700" class="block hover:bg-gray-700 px-3 py-2 rounded">Menu principal</a>
+      </li>
+      <li>
+        <a routerLink="/analisis" routerLinkActive="bg-blue-700" class="cursor-pointer block hover:bg-gray-700 px-3 py-2 rounded">Análisis</a>
+      </li>
+      <li>
+        <a  routerLink="/candidatos" routerLinkActive="bg-blue-700" class=" cursor-pointer block hover:bg-gray-700 px-3 py-2 rounded">Lista de candidatos</a>
+      </li>
+
+      <li>
+        <a  routerLink="/about" routerLinkActive="bg-blue-700" class="cursor-pointer block hover:bg-gray-700 px-3 py-2 rounded">Acerca de</a>
+      </li>
+    </ul>
+  </div>
+</nav>

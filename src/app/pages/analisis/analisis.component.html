@@ -1,0 +1,93 @@
+
+<div class="container mx-auto p-6">
+  <h1 class="text-2xl font-bold text-center mb-6">Análisis de Percepción de Candidato</h1>
+
+  <div class="grid grid-cols-2 gap-4">
+    <!-- Card Selección de Candidatos -->
+    <div class="bg-white shadow-lg rounded-xl p-4">
+      <h2 class="text-lg font-semibold text-black mb-2">Selección de Candidatos</h2>
+      <div class="relative dropdown">
+        <button
+          class="w-full bg-gray-200 text-gray-700 p-2 rounded-lg focus:outline-none"
+          (click)="mostrarCandidatos = !mostrarCandidatos">
+          Seleccionar Candidatos
+        </button>
+        <div *ngIf="mostrarCandidatos" class="absolute bg-white border mt-1 w-full max-h-60 overflow-y-auto shadow-lg rounded-lg z-10">
+          <label class="block p-2 text-gray-700 font-semibold bg-gray-100 cursor-pointer">
+            <input type="checkbox" [checked]="seleccionCandidatos.length === candidatos.length"
+                   (change)="toggleSeleccion(seleccionCandidatos, 'Seleccionar Todos')" class="mr-2">
+            Seleccionar Todos
+          </label>
+          <label *ngFor="let candidato of candidatos" class="block p-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
+            <input type="checkbox" [checked]="seleccionCandidatos.includes(candidato)"
+                   (change)="toggleSeleccion(seleccionCandidatos, candidato)" class="mr-2">
+            {{ candidato }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Selección de Fuentes de Datos -->
+    <div class="bg-white shadow-lg rounded-xl p-4">
+      <h2 class="text-lg font-semibold text-black mb-2">Selección de Fuentes</h2>
+      <div class="relative dropdown">
+        <button
+          class="w-full bg-gray-200 text-gray-700 p-2 rounded-lg focus:outline-none"
+          (click)="mostrarFuentes = !mostrarFuentes">
+          Seleccionar Fuentes
+        </button>
+        <div *ngIf="mostrarFuentes" class="absolute bg-white border mt-1 w-full max-h-40 overflow-y-auto shadow-lg rounded-lg z-10">
+          <label class="block p-2 text-gray-700 font-semibold bg-gray-100 cursor-pointer">
+            <input type="checkbox" [checked]="seleccionFuentes.length === fuentes.length"
+                   (change)="toggleSeleccion(seleccionFuentes, 'Seleccionar Todas')" class="mr-2">
+            Seleccionar Todas
+          </label>
+          <label *ngFor="let fuente of fuentes" class="block p-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
+            <input type="checkbox" [checked]="seleccionFuentes.includes(fuente)"
+                   (change)="toggleSeleccion(seleccionFuentes, fuente)" class="mr-2">
+            {{ fuente }}
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón Comenzar Análisis -->
+  <div class="mt-6 flex justify-center">
+    <button
+      (click)="comenzarAnalisis()"
+      class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
+      Comenzar Análisis
+    </button>
+  </div>
+
+  <div class="container mx-auto p-6">
+    <h1 class="text-2xl font-bold text-center mb-6">Análisis de Percepción de Candidato</h1>
+
+    <div class="grid grid-cols-2 gap-4">
+      <!-- Card 1: Nivel de Aceptación -->
+      <div class="bg-white shadow-lg rounded-xl p-4 col-span-1 h-96 ">
+        <h2 class="text-lg font-semibold text-black mb-2">Nivel de Aceptación</h2>
+        <canvas id="graficoAceptacion" class="w-full h-48"></canvas>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <!-- Card 2: Info Candidato -->
+        <div class="bg-white shadow-lg rounded-xl p-4 flex items-center gap-4">
+          <img [src]="'/assets/images/candidatos/' + partidos[0].imagen" alt="Candidato" class="w-16 h-16 rounded-full object-cover">
+          <div>
+            <h3 class="text-lg font-semibold text-black">{{ partidos[0].nombre }}</h3>
+            <p class="text-gray-700">{{ partidos[0].partido }}</p>
+          </div>
+        </div>
+
+        <!-- Card 3: Presencia en Redes -->
+        <div class="bg-white shadow-lg rounded-xl p-4 h-68">
+          <h2 class="text-lg font-semibold text-black mb-2">Presencia en Redes Sociales</h2>
+          <canvas id="graficoRedes" class="w-full h-32"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

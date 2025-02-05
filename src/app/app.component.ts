@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
+import {NavbarComponent} from './components/navbar/navbar.component';
+import {HeaderComponent} from './components/header/header.component';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +10,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'analisis-candidatos-ec';
+  @ViewChild(NavbarComponent) navbar!: NavbarComponent;
+  @ViewChild(HeaderComponent) header!: HeaderComponent;
 }
